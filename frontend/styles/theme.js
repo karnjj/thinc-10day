@@ -10,6 +10,9 @@ const theme = createMuiTheme({
     secondary: {
       main: '#19857b',
     },
+    gray: {
+      main: '#ededed'
+    },
     error: {
       main: red.A400,
     },
@@ -17,6 +20,7 @@ const theme = createMuiTheme({
       default: '#fff',
     },
   },
+  shadows: Array(25).fill('none')
 });
 
 export default theme;
