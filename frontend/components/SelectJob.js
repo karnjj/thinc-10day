@@ -29,12 +29,12 @@ const useStyles = makeStyles((theme) => ({
 
 const JobLinks = [
   //name, icon, paths
-  ["Design", Gesture, ["/"]],
-  ["Writting", Subject, ["/"]],
-  ["Video", MovieFilter, ["/"]],
-  ["Audio", Audiotrack, ["/"]],
-  ["Programming", Code, ["/"]],
-  ["Business", BusinessCenter, ["/"]],
+  ["Design", Gesture, ["/categories/design"]],
+  ["Writting", Subject, ["/categories/writting"]],
+  ["Video", MovieFilter, ["/categories/video"]],
+  ["Audio", Audiotrack, ["/categories/audio"]],
+  ["Programming", Code, ["/categories/programing"]],
+  ["Business", BusinessCenter, ["/categories/business"]],
 ];
 
 const SelectJob = () => {
