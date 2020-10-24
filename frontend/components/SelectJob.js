@@ -1,13 +1,11 @@
+import { Fragment } from "react";
 import {
-  Button,
-  Paper,
   makeStyles,
   Container,
   Typography,
   Icon,
   Grid,
 } from "@material-ui/core";
-import { Fragment } from "react";
 import CustomBut from "./CustomBut";
 import {
   Audiotrack,

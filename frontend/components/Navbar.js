@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import {
   AppBar,
   Container,
@@ -10,7 +11,6 @@ import {
   fade
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
-import { Fragment } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
