@@ -11,7 +11,8 @@ import SelectJob from '../components/SelectJob'
 
 const useStyles = makeStyles((theme) => ({
   paper: {
-    padding: "156px",
+    paddingTop: "150px",
+    paddingBottom: "150px",
     textAlign: "center",
     backgroundColor: "#ededed",
   },
