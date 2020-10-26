@@ -1,4 +1,4 @@
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import {
   AppBar,
   Container,
@@ -16,6 +16,7 @@ import {
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
+import Link from 'next/link'
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -107,60 +108,71 @@ const HideOnScroll = ({ children, window }) => {
 const Navbar = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const [value, setValue] = useState(JobLinks.findIndex(link => link[1][0] === router.pathname))
-  console.log(router.pathname);
+  const { name } = router.query;
+  const [value, setValue] = useState(-1)
+  useEffect(() => {
+    if(name !== undefined) {
+      setValue(JobLinks.findIndex((path) => path[1][0].slice(-name.length) === name))
+    }
+  },[name])
   return (
     <Fragment>
-      <HideOnScroll {...props}>
-        <AppBar className={classes.root}>
+      {/* <HideOnScroll {...props}> */}
+      <AppBar className={classes.root} position='static'>
+        <div className={classes.border}>
+          <Container maxWidth="lg">
+            <Toolbar className={classes.toolbar}>
+              <Typography variant="h6" className={classes.title}>
+                <a href="/" className={classes.a}>
+                  <b>FPF</b>reelance
+                </a>
+              </Typography>
+              <div className={classes.search}>
+                <div className={classes.searchIcon}>
+                  <Search color="secondary" />
+                </div>
+                <InputBase
+                  placeholder="Search…"
+                  classes={{
+                    root: classes.inputRoot,
+                    input: classes.inputInput,
+                  }}
+                  inputProps={{ "aria-label": "search" }}
+                />
+              </div>
+            </Toolbar>
+          </Container>
+        </div>
+        {router.pathname !== "/" && (
           <div className={classes.border}>
             <Container maxWidth="lg">
-              <Toolbar className={classes.toolbar}>
-                <Typography variant="h6" className={classes.title}>
-                  <a href="/" className={classes.a}>
-                    <b>FPF</b>reelance
-                  </a>
-                </Typography>
-                <div className={classes.search}>
-                  <div className={classes.searchIcon}>
-                    <Search color="secondary" />
-                  </div>
-                  <InputBase
-                    placeholder="Search…"
-                    classes={{
-                      root: classes.inputRoot,
-                      input: classes.inputInput,
-                    }}
-                    inputProps={{ "aria-label": "search" }}
-                  />
-                </div>
-              </Toolbar>
-            </Container>
-          </div>
-          {router.pathname !== "/" && (
-            <div className={classes.border}>
-              <Container maxWidth="lg">
-                <Tabs
-                  value={value}
-                  indicatorColor="secondary"
-                  textColor="secondary"
-                  variant="fullWidth"
-                >
-                  {JobLinks.map(([name, path], index) => (
+              <Tabs
+                value={value}
+              >
+                {JobLinks.map(([name, path], index) => (
+                  <Link
+                    href={`/categories/[name]`}
+                    as={path[0]}
+                    passHref
+                  >
                     <Tab
                       key={index}
                       data-key={index}
                       onMouseOver={() => setValue(index)}
                       label={name}
-                      href={path[0]}
-                    />
-                  ))}
-                </Tabs>
-              </Container>
-            </div>
-          )}
-        </AppBar>
-      </HideOnScroll>
+                      indicatorColor="secondary"
+                      textColor="secondary"
+                      fullWidth
+                    >
+                    </Tab>
+                  </Link>
+                ))}
+              </Tabs>
+            </Container>
+          </div>
+        )}
+      </AppBar>
+      {/* </HideOnScroll> */}
     </Fragment>
   );
 };
