@@ -15,6 +15,7 @@ import {
   MovieFilter,
   Subject,
 } from "@material-ui/icons";
+import Link from "next/router";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -45,7 +46,10 @@ const SelectJob = () => {
         <Grid container justify="center" spacing={2}>
           {JobLinks.map(([name, icon, path], index) => (
             <Grid item key={index}>
-              <CustomBut href={path}>
+              <CustomBut 
+                href={`/categories/[name]`}
+                dynamic={path[0]}
+              >
                 <Typography>
                   <Icon component={icon} fontSize="large" />
                   <br />
