@@ -94,7 +94,7 @@ const JobCard = ({ detail }) => {
       </CardActionArea>
       <CardActions className={classes.cardFooter}>
         <Typography className={classes.button}>
-          <Link href="/">
+          <Link>
             <a className={classes.a}>Starting At <b>{(detail.price/100)}$</b></a>
           </Link>
         </Typography>
