@@ -9,22 +9,21 @@ import {
   Typography,
   useScrollTrigger,
   fade,
-  Grid,
-  Button,
-  Tabs,
-  Tab,
 } from "@material-ui/core";
 import { Search } from "@material-ui/icons";
 import { useRouter } from "next/router";
-import Link from 'next/link'
+import Link from "next/link";
+import CateBar from "./CateBar";
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    color: theme.palette.secondary.main,
     backgroundColor: "#ffffff",
     flexGrow: 1,
   },
   toolbar: {
     minHeight: 64,
+    padding: 0,
   },
   catebar: {
     minHeight: 40,
@@ -86,16 +85,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const JobLinks = [
-  //name, paths
-  ["Design", ["/categories/design"]],
-  ["Writting", ["/categories/writting"]],
-  ["Video", ["/categories/video"]],
-  ["Audio", ["/categories/audio"]],
-  ["Programming", ["/categories/programing"]],
-  ["Business", ["/categories/business"]],
-];
-
 const HideOnScroll = ({ children, window }) => {
   const trigger = useScrollTrigger({ target: window ? window() : undefined });
   return (
@@ -108,24 +97,25 @@ const HideOnScroll = ({ children, window }) => {
 const Navbar = (props) => {
   const classes = useStyles();
   const router = useRouter();
-  const { name } = router.query;
-  const [value, setValue] = useState(-1)
-  useEffect(() => {
-    if(name !== undefined) {
-      setValue(JobLinks.findIndex((path) => path[1][0].slice(-name.length) === name))
+  const [value, setValue] = useState("");
+  const handleKey = (e) => {
+    if (e.keyCode == 13) {
+      router.push(`/search/${value}`)
     }
-  },[name])
+  }
   return (
     <Fragment>
       {/* <HideOnScroll {...props}> */}
-      <AppBar className={classes.root} position='static'>
+      <AppBar className={classes.root} position="static">
         <div className={classes.border}>
           <Container maxWidth="lg">
             <Toolbar className={classes.toolbar}>
               <Typography variant="h6" className={classes.title}>
-                <a href="/" className={classes.a}>
-                  <b>FPF</b>reelance
-                </a>
+                <Link href="/">
+                  <a className={classes.a}>
+                    <b>FPF</b>reelance
+                  </a>
+                </Link>
               </Typography>
               <div className={classes.search}>
                 <div className={classes.searchIcon}>
@@ -133,6 +123,9 @@ const Navbar = (props) => {
                 </div>
                 <InputBase
                   placeholder="Search…"
+                  value={value}
+                  onChange={(e) => setValue(e.target.value)}
+                  onKeyDown={handleKey}
                   classes={{
                     root: classes.inputRoot,
                     input: classes.inputInput,
@@ -143,34 +136,7 @@ const Navbar = (props) => {
             </Toolbar>
           </Container>
         </div>
-        {router.pathname !== "/" && (
-          <div className={classes.border}>
-            <Container maxWidth="lg">
-              <Tabs
-                value={value}
-              >
-                {JobLinks.map(([name, path], index) => (
-                  <Link
-                    href={`/categories/[name]`}
-                    as={path[0]}
-                    passHref
-                  >
-                    <Tab
-                      key={index}
-                      data-key={index}
-                      onMouseOver={() => setValue(index)}
-                      label={name}
-                      indicatorColor="secondary"
-                      textColor="secondary"
-                      fullWidth
-                    >
-                    </Tab>
-                  </Link>
-                ))}
-              </Tabs>
-            </Container>
-          </div>
-        )}
+        {router.pathname !== "/" && <CateBar />}
       </AppBar>
       {/* </HideOnScroll> */}
     </Fragment>

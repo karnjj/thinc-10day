@@ -31,10 +31,10 @@ const useStyles = makeStyles((theme) => ({
 const JobLinks = [
   //name, icon, paths
   ["Design", Gesture, ["/categories/design"]],
-  ["Writting", Subject, ["/categories/writting"]],
+  ["Writing", Subject, ["/categories/writing"]],
   ["Video", MovieFilter, ["/categories/video"]],
   ["Audio", Audiotrack, ["/categories/audio"]],
-  ["Programming", Code, ["/categories/programing"]],
+  ["Programming", Code, ["/categories/programming"]],
   ["Business", BusinessCenter, ["/categories/business"]],
 ];
 

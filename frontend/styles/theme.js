@@ -25,6 +25,9 @@ const theme = responsiveFontSizes(createMuiTheme({
     background: {
       default: '#fff',
     },
+    red: {
+      main: '#F45B69'
+    }
   },
   shadows: Array(25).fill('none')
 }))

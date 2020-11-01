@@ -3,17 +3,17 @@ import { useRouter } from "next/router";
 import { Fragment, useEffect, useState } from "react";
 import FilterCard from "../../components/FIlterCard";
 import Navbar from "../../components/Navbar";
-import JobCard from '../../components/JobCard'
+import JobCard from "../../components/JobCard";
 const useStyles = makeStyles((theme) => ({
-	card: {
-		position: 'sticky'
+  card: {
+    position: "sticky",
   },
-}))
+}));
 
 const Category = () => {
-	const classes = useStyles()
+  const classes = useStyles();
   const router = useRouter();
-  const [data,setData] = useState([])
+  const [data, setData] = useState([]);
   const [filter,setFilter] = useState({
     minExp : 0,
     maxExp : 10,
@@ -29,15 +29,15 @@ const Category = () => {
       Any: true,
     }
   })
-  const { name } = router.query;
+  const { key } = router.query;
 
   useEffect(async () => {
-    if(name !== undefined) {
-      const res = await fetch(`http://127.0.0.1:8000/api/categories/${name}`)
-      const { data } = await res.json()
-      setData(data)
+    if (key !== undefined) {
+      const res = await fetch(`http://127.0.0.1:8000/api/search/${key}`);
+      const { data } = await res.json();
+      setData(data);
     }
-  },[name])
+  }, [key]);
 
   const filterData = data?.filter((task) => {
     const cost = (task.price/100 <= filter.maxCost) && (task.price/100 >= filter.minCost)
@@ -51,31 +51,36 @@ const Category = () => {
     if(task.educationbg === 'PHD' && filter.bg.PHD) bg = true
     return cost && day && delTime && bg 
   })
+
   return (
-    <div style={{ backgroundColor: '#E5F4E3'}}>
+    <div style={{ backgroundColor: "#E5F4E3" }}>
       <Navbar />
       <Grid container>
         <Grid item xs={12}>
           <br />
           <Container maxWidth="lg">
-						<Grid container spacing={4}>
-							<Grid item xs={3} >
-								<FilterCard cb={setFilter}/>
-							</Grid>
-							<Grid item xs={9}>
-								<Paper variant="outlined" style={{ backgroundColor: '#fff'}}>
-                    <Grid container spacing={3} style={{ margin: '12px', width: 'calc(100% - 24px)'}}>
-                      {filterData.map((detail) => {
-                        return (
-                          <Grid item>
-                            <JobCard detail={detail}/>
-                          </Grid>
-                        )
-                      })}
-                    </Grid>
+            <Grid container spacing={4}>
+              <Grid item xs={3}>
+                <FilterCard cb={setFilter}/>
+              </Grid>
+              <Grid item xs={9}>
+                <Paper variant="outlined" style={{ backgroundColor: "#fff" }}>
+                  <Grid
+                    container
+                    spacing={3}
+                    style={{ margin: "12px", width: "calc(100% - 24px)" }}
+                  >
+                    {filterData.map((detail) => {
+                      return (
+                        <Grid item>
+                          <JobCard detail={detail} />
+                        </Grid>
+                      );
+                    })}
+                  </Grid>
                 </Paper>
-							</Grid>
-						</Grid>
+              </Grid>
+            </Grid>
           </Container>
         </Grid>
       </Grid>
