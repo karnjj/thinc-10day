@@ -49,14 +49,13 @@ const CateBar = () => {
           scrollButtons="auto"
         >
           {JobLinks.map(([name, path], index) => (
-            <Link href={`/categories/[name]`} as={path[0]} passHref>
+            <Link key={index} href={`/categories/[name]`} as={path[0]} passHref>
               <Tab
                 key={index}
                 data-key={index}
                 onMouseOver={() => setValue(index)}
                 onMouseOut={() => setValue(thisPage)}
                 label={name}
-                indicatorColor="secondary"
                 textColor="secondary"
                 fullWidth
               ></Tab>
