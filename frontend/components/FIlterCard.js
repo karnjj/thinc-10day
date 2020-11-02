@@ -14,8 +14,10 @@ import {
   OutlinedInput,
   Select,
   Slider,
+  TextField,
   Typography,
 } from "@material-ui/core";
+import { AccountCircle } from "@material-ui/icons";
 import { Fragment, useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,11 +49,14 @@ const useStyles = makeStyles((theme) => ({
   search: {
     display: "flex",
     alignItems: "flex-end",
-    justifyContent: 'flex-end'
+    justifyContent: "flex-end",
+  },
+  title: {
+    marginTop: "10px",
   },
 }));
 
-const FilterCard = ({cb}) => {
+const FilterCard = ({ cb }) => {
   const classes = useStyles();
   const [value, setValue] = useState([0, 10]);
   const [minCost, setMinCost] = useState(undefined);
@@ -69,7 +74,7 @@ const FilterCard = ({cb}) => {
     setValue(newValue);
   };
   const handleCheck = (event) => {
-    if (event.target.name === "Any" && event.target.checked ) {
+    if (event.target.name === "Any" && event.target.checked) {
       setCheck({
         Under: false,
         Tech: false,
@@ -79,34 +84,42 @@ const FilterCard = ({cb}) => {
         Any: true,
       });
     } else {
-      setCheck({ ...check, [event.target.name]: event.target.checked, Any: false });
+      setCheck({
+        ...check,
+        [event.target.name]: event.target.checked,
+        Any: false,
+      });
     }
   };
   const handleDelivery = (event) => {
     setDelTime(event.target.value);
   };
   const onSubmit = () => {
-    const filterdata =  {
-      minExp : value[0],
-      maxExp : value[1],
-      minCost : (minCost === undefined) ? 0 : minCost,
-      maxCost : (maxCost === undefined) ? 1000000 : maxCost,
-      delTime : delTime,
-      bg : check
-    }
-    cb(filterdata)
-  }
+    const filterdata = {
+      minExp: value[0],
+      maxExp: value[1],
+      minCost: minCost === undefined ? 0 : minCost,
+      maxCost: maxCost === undefined ? 1000000 : maxCost,
+      delTime: delTime,
+      bg: check,
+    };
+    cb(filterdata);
+  };
   return (
     <Fragment>
       <Card>
-        <CardHeader title="Filter" />
+        <CardHeader title="Filter" style={{ paddingBottom: "0" }} />
         <CardContent>
           <Grid container>
             <Grid item xs={8}>
-              <Typography gutterBottom>YEAR OF EXPIRIENCE</Typography>
+              <Typography gutterBottom className={classes.title}>
+                YEAR OF EXPIRIENCE
+              </Typography>
             </Grid>
             <Grid item xs={4} className={classes.search}>
-              <Typography variant='caption'>{value[0]}-{value[1]}</Typography>
+              <Typography variant="caption">
+                {value[0]}-{value[1]}
+              </Typography>
             </Grid>
           </Grid>
           <Slider
@@ -124,49 +137,44 @@ const FilterCard = ({cb}) => {
             direction="row"
             justify="space-between"
             alignItems="center"
+            spacing={1}
           >
             <Grid item xs={6}>
-              <FormControlLabel
-                label={
-                  <Typography style={{ marginRight: "1ch" }}>Min.</Typography>
-                }
-                labelPlacement="start"
-                control={
-                  <FormControl variant="outlined" size="small">
-                    <OutlinedInput
-                      id="min-budget"
-                      onChange={(e) => setMinCost(e.target.value)}
-                      value={minCost}
-                      endAdornment={
-                        <InputAdornment position="end">$</InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                }
+              <TextField
+                size="small"
+                id="mincost"
+                label="Min"
+                multiline
+                value={minCost}
+                onChange={(e) => setMinCost(e.target.value)}
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">$</InputAdornment>
+                  ),
+                }}
               />
             </Grid>
             <Grid item xs={6}>
-              <FormControlLabel
-                label={
-                  <Typography style={{ marginRight: "1ch" }}>Max.</Typography>
-                }
-                labelPlacement="start"
-                control={
-                  <FormControl variant="outlined" size="small">
-                    <OutlinedInput
-                      id="max-budget"
-                      value={maxCost}
-                      onChange={(e) => setMaxCost(e.target.value)}
-                      endAdornment={
-                        <InputAdornment position="end">$</InputAdornment>
-                      }
-                    />
-                  </FormControl>
-                }
+              <TextField
+                size="small"
+                id="maxcost"
+                label="Max"
+                multiline
+                value={maxCost}
+                onChange={(e) => setMaxCost(e.target.value)}
+                variant="outlined"
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">$</InputAdornment>
+                  ),
+                }}
               />
             </Grid>
           </Grid>
-          <Typography gutterBottom>EDUCATIONAL BACKGROUND</Typography>
+          <Typography gutterBottom className={classes.title}>
+            EDUCATIONAL BACKGROUND
+          </Typography>
           <FormGroup style={{ marginLeft: "2px" }}>
             <FormControlLabel
               control={
@@ -263,7 +271,9 @@ const FilterCard = ({cb}) => {
           </FormGroup>
           <Grid container spacing={2}>
             <Grid item xs={7}>
-              <Typography gutterBottom>DELIVERY TIME</Typography>
+              <Typography gutterBottom className={classes.title}>
+                DELIVERY TIME
+              </Typography>
               <FormControl
                 size="small"
                 variant="outlined"
@@ -278,7 +288,11 @@ const FilterCard = ({cb}) => {
               </FormControl>
             </Grid>
             <Grid item xs={5} className={classes.search}>
-              <Button variant="outlined" className={classes.button} onClick={() => onSubmit()}>
+              <Button
+                variant="outlined"
+                className={classes.button}
+                onClick={() => onSubmit()}
+              >
                 Search
               </Button>
             </Grid>
