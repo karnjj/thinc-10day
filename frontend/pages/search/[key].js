@@ -68,11 +68,11 @@ const Category = () => {
                   <Grid
                     container
                     spacing={3}
-                    style={{ margin: "12px", width: "calc(100% - 24px)" }}
+                    style={{ margin: "12px", width: "calc(100% - 24px)", minHeight: '500px'}}
                   >
-                    {filterData.map((detail) => {
+                    {filterData.map((detail,index) => {
                       return (
-                        <Grid item>
+                        <Grid item key={index}>
                           <JobCard detail={detail} />
                         </Grid>
                       );
