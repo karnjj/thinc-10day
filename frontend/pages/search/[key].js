@@ -53,7 +53,7 @@ const Category = () => {
   })
 
   return (
-    <div style={{ backgroundColor: "#E5F4E3" }}>
+    <div style={{ backgroundColor: "#E5F4E3" ,height: '100vh'}}>
       <Navbar />
       <Grid container>
         <Grid item xs={12}>
